@@ -8,11 +8,12 @@
                       <v-card-text class="mt-12">
                         <h1
                           class="text-center display-2 indigo--text text--darken-4"
-                        >Sign in to Diprella</h1>
-                        <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                        >Connectez-vous</h1>
+
                         <v-form>
 
                           <v-text-field
+                          v-model="email"
                                 filled
                                 label="Email"
                                 prepend-icon="mdi-at"
@@ -36,7 +37,11 @@
                         <h3 class="text-center mt-4">Mot de passe oublié ?</h3>
                       </v-card-text>
                       <div class="text-center mt-3">
-                        <v-btn rounded color="indigo darken-4" dark >CONNEXION</v-btn>
+                        <v-btn rounded color="indigo darken-4" dark
+                        type="submit"
+                        :disabled="loading"
+                        @click.prevent="login"
+                        >CONNEXION</v-btn>
                       </div>
                     </v-col>
                     <v-col cols="12" md="4" class="indigo darken-4">
@@ -44,7 +49,7 @@
                         <h1 class="text-center display-1">Hello, Friend!</h1>
                         <h5
                           class="text-center"
-                        >Enter your personal details and start journay with us</h5>
+                        >Entrez vos infos et venez nous rejoindre</h5>
                       </v-card-text>
                       <div class="text-center">
                         <v-btn rounded outlined dark to="/register">INSCRIPTION</v-btn>
@@ -57,9 +62,13 @@
       </v-container>
 </template>
 <script>
+import { logIn } from "../auth";
   export default {
     data () {
       return {
+          email:null,
+          password:null,
+          loading:false,
         show1: false,
         password: '',
         rules: {
@@ -69,5 +78,29 @@
         },
       }
     },
+    methods:{
+        async login(){
+            this.loading = true;
+
+
+            try {
+                await axios.get("/sanctum/csrf-cookie");
+                await axios.post("/login", {
+                    email: this.email,
+                    password: this.password
+                });
+                 logIn();
+                this.$store.dispatch("loadUser");
+                await this.$router.push({name:'index'});
+
+            } catch (error) {
+                console.log(error.response.data.errors);
+
+            }
+
+            this.loading =false;
+
+        }
+    }
   }
 </script>

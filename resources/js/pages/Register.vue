@@ -238,7 +238,7 @@ export default {
             return pattern.test(value) || "L'email n'est pas valide."
           },
           confirmPassword: value => {
-            return (value === this.user.Mdp) || 'Passwords must match'
+            return value === this.user.Mdp || 'Passwords must match'
           }
 
 

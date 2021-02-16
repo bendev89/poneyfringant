@@ -1,7 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PagesController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,16 @@ use App\Http\Controllers\PagesController;
 |
 */
 
+$limiter = config('fortify.limiters.login');
 Route::get('/{any?}', function () {
     return view('welcome');
 })->where('any', '^(?!api\/)[\/\w\.\,-]*');
+// Authentication...
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware(array_filter([
+        'guest',
+        $limiter ? 'throttle:' . $limiter : null,
+
+    ]));
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
