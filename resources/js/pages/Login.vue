@@ -91,10 +91,10 @@ import { logIn } from "../auth";
                 });
                  logIn();
                 this.$store.dispatch("loadUser");
-                await this.$router.push({name:'index'});
+                this.$router.push({name:'index'});
 
             } catch (error) {
-                console.log(error.response.data.errors);
+                // console.log(error.response.data.errors);
 
             }
 

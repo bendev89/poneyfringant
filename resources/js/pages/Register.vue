@@ -22,7 +22,8 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                      v-model="user.Prenom"
+                      v-model="user.prenom"
+                      name="prenom"
                       :rules="[rules.required]"
                         cols="12"
                         md="6"
@@ -37,7 +38,8 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                      v-model="user.Nom"
+                      v-model="user.nom"
+                      name="nom"
                       :rules="[rules.required]"
                         cols="12"
                         md="6"
@@ -54,10 +56,10 @@
                   <v-col cols="12" sm="6">
                       <v-text-field
                       dense
-                      v-model="user.Telephone"
+                      v-model="user.telephone"
                       :rules="[rules.required, rules.min]"
                       filled
-                        name="input-10-2"
+                        name="telephone"
                         label="Téléphone"
                         prepend-inner-icon="mdi-lock-outline"
                       ></v-text-field>
@@ -66,10 +68,10 @@
                     <v-col cols="12" sm="6">
                       <v-text-field
                       dense
-                      v-model="user.NumAdherent"
+                      v-model="user.numero_adherent"
                      :rules="[rules.required]"
                       filled
-                        name="input-10-2"
+                        name="numero_adherent"
                         prepend-inner-icon="mdi-lock-outline"
                         label="Numéro d'adherent"
                       ></v-text-field>
@@ -79,7 +81,8 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                        v-model="user.CodePostal"
+                        v-model="user.code_postal"
+                        name="code_postal"
                         :rules="[rules.required]"
                         filled
                         label="Code postal"
@@ -92,7 +95,8 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                      v-model="user.Ville"
+                      v-model="user.ville"
+                      name="ville"
                       :rules="[rules.required]"
 
                         filled
@@ -108,7 +112,8 @@
                     <v-col cols="12" md="6">
                   <v-text-field
                   dense
-                  v-model="user.Adresse"
+                  v-model="user.adresse"
+                  name="adresse"
                   :rules="[rules.required]"
                     cols="12"
                     md="6"
@@ -122,7 +127,8 @@
                     <v-col>
                   <v-text-field
                   dense
-                  v-model="user.dateAdhesion"
+                  v-model="user.date_adhesion"
+                  name="date_adhesion"
                   :rules="[rules.required]"
                     cols="12"
                     md="6"
@@ -138,7 +144,8 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                        v-model="user.Pseudo"
+                        v-model="user.pseudo"
+                        name="pseudo"
                         :rules="[rules.required]"
                         filled
                         label="Pseudo"
@@ -151,15 +158,13 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                        v-model="user.Email"
+                        v-model="user.email"
+                        name="email"
                         :rules="[rules.required, rules.email]"
                         filled
                         label="Email"
                         prepend-inner-icon="mdi-at"
                         color="indigo darken-4"
-
-                         @input="$v.user.Email.$touch()"
-                        @blur="$v.user.Email.$touch()"
 
                       >
                       </v-text-field>
@@ -169,12 +174,12 @@
                     <v-col cols="12" md="6" >
                       <v-text-field
                       dense
-                      v-model="user.Mdp"
+                      v-model="user.password"
+                      name="password"
                       :rules="[rules.required, rules.min]"
                       filled
                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show1 ? 'text' : 'password'"
-                        name="input-10-2"
                         label="Mot de passe"
                         prepend-inner-icon="mdi-lock-outline"
                         @click:append="show1 = !show1"
@@ -184,12 +189,12 @@
                     <v-col cols="12" md="6">
                       <v-text-field
                       dense
-                      v-model="user.MdpConfirm"
+                      v-model="user.password_confirmation"
                      :rules="[rules.confirmPassword]"
                       filled
                         :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show2 ? 'text' : 'password'"
-                        name="input-10-2"
+                        name="password_confirmation"
                         prepend-inner-icon="mdi-lock-outline"
                         label="Confirmation du mot de passe"
                         @click:append="show2 = !show2"
@@ -200,7 +205,11 @@
                 </v-form>
               </v-card-text>
               <div class="text-center mt-3">
-                <v-btn rounded color="indigo darken-4" dark>INSCRIPTION</v-btn>
+                <v-btn rounded color="indigo darken-4" dark
+                    type="submit"
+                    :disabled="loading"
+                    @click.prevent="register"
+                >INSCRIPTION</v-btn>
               </div>
             </v-col>
           </v-row>
@@ -211,23 +220,27 @@
 </template>
 <script>
 // import { sameAs } from "vuelidate/lib/validators";
+import { logIn } from "../auth";
+
 export default {
   data() {
     return {
         show1: false,
         show2: false,
+        loading: false,
         user: {
-                    Prenom: "",
-                    Nom: "",
-                    Telephone:"",
-                    NumAdherent:"",
-                    CodePostal:"",
-                    Ville: "",
-                    Adresse:"",
-                    Pseudo:"",
-                    Email:"",
-                    Mdp:"",
-                    MdpConfirm:""
+                    prenom: "",
+                    nom: "",
+                    date_adhesion:"",
+                    telephone:"",
+                    numero_adherent:"",
+                    code_postal:"",
+                    ville: "",
+                    adresse:"",
+                    pseudo:"",
+                    email:"",
+                    password:"",
+                    password_confirmation:""
 
                 },
 
@@ -238,7 +251,7 @@ export default {
             return pattern.test(value) || "L'email n'est pas valide."
           },
           confirmPassword: value => {
-            return value === this.user.Mdp || 'Passwords must match'
+            return value === this.user.password || 'Passwords must match'
           }
 
 
@@ -246,8 +259,24 @@ export default {
         },
     }
   },
+  methods: {
+    async register() {
+      this.loading = true;
+      this.errors = null;
+      try {
+        const response = await axios.post("/register", this.user);
+        if (201 == response.status) {
+          logIn();
+          this.$store.dispatch("loadUser");
+          this.$router.push({ name: "index" });
+        }
+      } catch (error) {
+        // this.errors = error.response && error.response.data.errors;
+      }
+      this.loading = false;
 
-
+    }
+}
 }
 
 </script>

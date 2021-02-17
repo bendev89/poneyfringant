@@ -15,12 +15,13 @@
           ></v-text-field>
         </v-col>
         </v-row>
-        <v-row>
+        <v-row class="filtre">
              <v-radio-group v-for="interet in interets" :key="interet.id"
                  row
                  v-model="cat"
              >
                  <v-radio
+                 color="indigo darken-4"
                     :label="interet.nom"
                     :value="interet.nom"
                 ></v-radio>
@@ -29,7 +30,7 @@
         </v-row>
 
       <v-row  class="d-flex flex-wrap">
-        <v-flex xs12 sm6 md4 lg3 v-for="adherent in getSearchedAdherents" :key="adherent.id">
+        <v-flex  xs12 sm6 md4 lg3 v-for="adherent in getSearchedAdherents" :key="adherent.id">
           <v-card class="text-center ma-3 " :to="{name:'profil', params:{id: adherent.id}}">
               <v-responsive class="pt-4" >
                   <v-avatar>
@@ -119,3 +120,18 @@ export default {
 }
 }
 </script>
+<style>
+.filtre label {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: .5rem 1.25rem;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #444;
+      transition: box-shadow 400ms ease;
+}
+.v-input--selection-controls__input input[role=radio] {
+    display: none;
+}
+
+</style>

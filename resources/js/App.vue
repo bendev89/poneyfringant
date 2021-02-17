@@ -27,7 +27,7 @@
               color="brown"
               size="48"
             >
-              <span class="white--text headline">BN</span>
+              <img :src="`https://eu.ui-avatars.com/api/?name=${user.prenom}+${user.nom}`">
             </v-avatar>
           </v-btn>
         </template>
@@ -37,11 +37,11 @@
               <v-avatar
                 color="brown"
               >
-                <span class="white--text headline">BN</span>
+                <img :src="`https://eu.ui-avatars.com/api/?name=${user.prenom}+${user.nom}`">
               </v-avatar>
-              <h3>Benoit</h3>
+              <h3>{{user.prenom}}</h3>
               <p class="caption mt-1">
-                ben@gmail.com
+                {{user.email}}
               </p>
               <v-divider class="my-3"></v-divider>
               <v-btn
@@ -73,14 +73,17 @@ import {mapState,mapMutations,mapAction } from 'vuex'
       try {
         axios.post("/logout");
         this.$store.dispatch("logout");
+        this.$router.push({name:'login'});
       } catch (error) {
         this.$store.dispatch("logout");
       }
-    }
+    },
+
   },
     computed: {
       ...mapState({
-          isLoggedIn:"isLoggedIn"
+          isLoggedIn:"isLoggedIn",
+          user:"user"
       })
 
 

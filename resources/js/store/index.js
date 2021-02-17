@@ -6,14 +6,15 @@ export default {
         user: {}
     },
 
-    // getters: {
-    //     loggedIn(state) {
-    //         return state.loggedIn;
-    //     },
-    //     user(state) {
-    //         return state.user;
-    //     }
-    // },
+    getters: {
+        loggedIn(state) {
+            return state.isloggedIn;
+        }
+    },
+    // //     user(state) {
+    // //         return state.user;
+    // //     }
+    // // },
     mutations: {
         setLoggedIn(state, payload) {
             state.isLoggedIn = payload;

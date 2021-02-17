@@ -10,6 +10,7 @@ import Register from "./pages/Register.vue";
 import Index from "./pages/Index.vue";
 import Profilform from "./pages/Profilform.vue";
 import Profil from "./pages/Profil.vue";
+import { isLoggedIn, logOut } from "./auth";
 
 import Vuex from "vuex";
 
@@ -24,7 +25,8 @@ const router = new VueRouter({
         {
             path: "/",
             name: "index",
-            component: Index
+            component: Index,
+            meta: { requiresAuth: true }
         },
         {
             path: "/register",
@@ -39,14 +41,32 @@ const router = new VueRouter({
         {
             path: "/profilform",
             name: "profilform",
-            component: Profilform
+            component: Profilform,
+            meta: { requiresAuth: true }
         },
         {
             path: "/profil/:id",
             name: "profil",
-            component: Profil
+            component: Profil,
+            meta: { requiresAuth: true }
         }
     ]
+});
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        if (!isLoggedIn()) {
+            next({
+                path: "/login",
+                query: { redirect: to.fullPath }
+            });
+        } else {
+            next();
+        }
+    } else {
+        next(); // make sure to always call next()!
+    }
 });
 window.axios.interceptors.response.use(
     response => {

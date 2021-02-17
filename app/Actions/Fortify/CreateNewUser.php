@@ -21,7 +21,15 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'prenom' => ['required', 'string', 'max:255'],
+            'nom' => ['required', 'string', 'max:255'],
+            'pseudo' => ['required', 'string', 'max:255'],
+            'telephone' => ['required', 'string', 'max:255'],
+            'numero_adherent' => ['required', 'string', 'max:255'],
+            'date_adhesion' => ['required', 'string', 'max:255'],
+            'code_postal' => ['required', 'string', 'max:255'],
+            'ville' => ['required', 'string', 'max:255'],
+            'adresse' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -33,7 +41,15 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         return User::create([
-            'name' => $input['name'],
+            'prenom' => $input['prenom'],
+            'nom' => $input['nom'],
+            'pseudo' => $input['pseudo'],
+            'telephone' => $input['telephone'],
+            'numero_adherent' => $input['numero_adherent'],
+            'date_adhesion' => $input['date_adhesion'],
+            'code_postal' => $input['code_postal'],
+            'ville' => $input['ville'],
+            'adresse' => $input['adresse'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);

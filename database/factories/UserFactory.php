@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'prenom' => $this->faker->firstName,
             'pseudo' => $this->faker->unique()->userName,
             'email' => $this->faker->unique()->safeEmail,
+            'telephone' => $this->faker->e164PhoneNumber,
             'numero_adherent' => $this->faker->unique()->numerify('adh-2045-###'),
             'adresse' => $this->faker->streetAddress,
             'code_postal' => $this->faker->postcode,

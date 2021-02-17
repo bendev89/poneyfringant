@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('pseudo')->unique();
             $table->string('email')->unique();
             $table->string('numero_adherent')->unique();
+            $table->string('telephone');
             $table->string('adresse');
             $table->string('code_postal');
             $table->string('ville');
